@@ -12,15 +12,17 @@ public class Partida {
 	private TabuleiroFlexivel tabuleiro = new TabuleiroFlexivel("  ");
 	private String status;
 	private ArrayList<Jogador> jogadores;
+	private int vezDoJogador = 0;
 	private Turno turno;
+	private ArrayList<Turno> turnos = new ArrayList<Turno>();
 
 	Partida(BolsaDeTiles tiles, Cor... sequencia) {
 		status = "Em_Andamento";
 		jogadores = iniciaJogadores(sequencia);
 		this.tiles = tiles;
 		pegarProximoTile();
-		turno = new Turno(proximoTile, jogadores.get(0), "Tile_Posicionado");
-		
+		turno = new Turno(proximoTile, jogadores.get(vezDoJogador), "Tile_Posicionado");	
+		turnos.add(turno);
 	}
 
 	public ArrayList<Jogador> iniciaJogadores(Cor... sequencia) {
@@ -44,10 +46,16 @@ public class Partida {
 	}
 
 	public String relatorioTurno() {
+		if(status.equals("Partida_Finalizada")) {
+			throw new ExcecaoJogo("Partida finalizada");
+		}
 		return "Jogador: " + turno.getJogador().getCor() + "\nTile: " + proximoTile + "\nStatus: " + turno.getStatus();
 	}
 
 	public Partida girarTile() {
+		if(status.equals("Partida_Finalizada")) {
+			throw new ExcecaoJogo("Partida finalizada");
+		}
 		proximoTile.girar();
 		return this;
 	}
@@ -58,7 +66,14 @@ public class Partida {
 	}
 
 	public Partida finalizarTurno() {
-		pegarProximoTile();
+		turno.setStatus("Finalizado");
+		if(tiles.pegar() == null) {
+			this.status = "Partida_Finalizada";
+		}else {
+			pegarProximoTile();
+			this.turno = new Turno(proximoTile, jogadores.get(vezDoJogador++), "Início_Turno");
+			turnos.add(turno);
+		}
 		return this;
 	}
 
