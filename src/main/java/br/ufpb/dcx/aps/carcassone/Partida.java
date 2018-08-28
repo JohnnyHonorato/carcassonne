@@ -46,15 +46,20 @@ public class Partida {
 	}
 
 	public String relatorioTurno() {
-		if(status.equals("Partida_Finalizada")) {
-			throw new ExcecaoJogo("Partida finalizada");
-		}
+		if(status.equals("Partida_Finalizada")) throw new ExcecaoJogo("Partida finalizada");
+
 		return "Jogador: " + turno.getJogador().getCor() + "\nTile: " + proximoTile + "\nStatus: " + turno.getStatus();
+	}
+	public String relatorioTabuleiro( String configuracao) {
+		return configuracao;
 	}
 
 	public Partida girarTile() {
+		if(status.equals("Tile_Posicionado")){
+			throw new ExcecaoJogo("Não pode girar tile já posicionado");
+		}
 		if(status.equals("Partida_Finalizada")) {
-			throw new ExcecaoJogo("Partida finalizada");
+			throw new ExcecaoJogo("Não pode girar tiles com a partida finalizada");
 		}
 		proximoTile.girar();
 		return this;
@@ -114,7 +119,5 @@ public class Partida {
 		return null;
 	}
 
-	public String relatorioTabuleiro() {
-		return  proximoTile + "";
-	}
+
 }

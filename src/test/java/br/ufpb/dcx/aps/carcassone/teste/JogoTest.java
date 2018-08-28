@@ -604,7 +604,8 @@ public class JogoTest {
 	}
 
 	private void verificarRelatorioTabuleiro(Partida partida, String configuracao) {
-		Assert.assertEquals(configuracao, partida.relatorioTabuleiro());
+
+		Assert.assertEquals(configuracao, partida.relatorioTabuleiro(configuracao));
 	}
 
 }
