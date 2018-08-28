@@ -9,8 +9,7 @@ public class Jogo {
 			throw new ExcecaoJogo("Cada partida deve ter uma sequência de pelo menos dois jogadores");
 		if(verficaTilesIguais(sequencia))
 			throw new ExcecaoJogo("Não pode haver repetição de cores na sequência de jogadores");
-		
-		return new Partida(tiles);
+		return new Partida(tiles, sequencia);
 	}
 
 	public boolean verficaTilesIguais(Cor... sequencia) {

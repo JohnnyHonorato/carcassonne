@@ -1,5 +1,7 @@
 package br.ufpb.dcx.aps.carcassone;
 
+import java.util.ArrayList;
+
 import br.ufpb.dcx.aps.carcassone.tabuleiro.TabuleiroFlexivel;
 import br.ufpb.dcx.aps.carcassone.tabuleiro.Tile;
 
@@ -8,18 +10,41 @@ public class Partida {
 	private BolsaDeTiles tiles;
 	private Tile proximoTile;
 	private TabuleiroFlexivel tabuleiro = new TabuleiroFlexivel("  ");
+	private String status;
+	private ArrayList<Jogador> jogadores;
+	private Turno turno;
 
-	Partida(BolsaDeTiles tiles) {
+	Partida(BolsaDeTiles tiles, Cor... sequencia) {
+		status = "Em_Andamento";
+		jogadores = iniciaJogadores(sequencia);
 		this.tiles = tiles;
 		pegarProximoTile();
+		turno = new Turno(proximoTile, jogadores.get(0), "Tile_Posicionado");
+		
+	}
+
+	public ArrayList<Jogador> iniciaJogadores(Cor... sequencia) {
+		ArrayList<Jogador> temporarioJogadores = new ArrayList<Jogador>();
+		for (Cor cor : sequencia) {
+			temporarioJogadores.add(new Jogador(cor.name()));
+		}
+		return temporarioJogadores;
 	}
 
 	public String relatorioPartida() {
-		return null;
+		String oxi = "";
+		for (Jogador j : jogadores) {
+			if (j.equals(jogadores.get(jogadores.size() - 1))) {
+				oxi = oxi + j.getCor() + "(" + j.getPontuacao() + "," + j.getMeeples() + ")";
+			} else {
+				oxi = oxi + j.getCor() + "(" + j.getPontuacao() + "," + j.getMeeples() + "); ";
+			}
+		}
+		return "Status: " + status + "\nJogadores: " + oxi;
 	}
 
 	public String relatorioTurno() {
-		return null;
+		return "Jogador: " + turno.getJogador().getCor() + "\nTile: " + proximoTile + "\nStatus: " + turno.getStatus();
 	}
 
 	public Partida girarTile() {
@@ -75,6 +100,6 @@ public class Partida {
 	}
 
 	public String relatorioTabuleiro() {
-		return null;
+		return  proximoTile + "";
 	}
 }

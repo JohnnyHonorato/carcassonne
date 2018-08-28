@@ -64,6 +64,7 @@ public class JogoTest {
 				"Não pode haver repetição de cores na sequência de jogadores");
 	}
 
+
 	/**
 	 * Caso de teste 02
 	 * 
