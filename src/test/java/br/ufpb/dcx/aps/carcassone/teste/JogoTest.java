@@ -591,6 +591,7 @@ public class JogoTest {
 
 	private void mockarTiles(BolsaDeTiles mock, Tile primeiro, Tile... tiles) {
 		when(mock.pegar()).thenReturn(primeiro, Arrays.copyOf(tiles, tiles.length + 1));
+		when(mock.size()).thenReturn(tiles.length + 1);
 	}
 
 	private void verificarRelatorioPartida(Partida partida, String status, String sequencia) {

@@ -10,6 +10,7 @@ public class Partida {
 	private BolsaDeTiles tiles;
 	private Tile proximoTile;
 	private TabuleiroFlexivel tabuleiro = new TabuleiroFlexivel("  ");
+
 	private String status;
 	private ArrayList<Jogador> jogadores;
 	private int vezDoJogador = 0;
@@ -17,12 +18,12 @@ public class Partida {
 	private ArrayList<Turno> turnos = new ArrayList<Turno>();
 
 	Partida(BolsaDeTiles tiles, Cor... sequencia) {
-		status = "Em_Andamento";
 		jogadores = iniciaJogadores(sequencia);
+		this.status = "Em_Andamento";
 		this.tiles = tiles;
 		pegarProximoTile();
-		turno = new Turno(proximoTile, jogadores.get(vezDoJogador), "Tile_Posicionado");	
-		turnos.add(turno);
+		turno = new Turno(proximoTile, jogadores.get(vezDoJogador), "Tile_Posicionado");
+		posicionarPrimeiroTile(proximoTile);
 	}
 
 	public ArrayList<Jogador> iniciaJogadores(Cor... sequencia) {
@@ -46,44 +47,57 @@ public class Partida {
 	}
 
 	public String relatorioTurno() {
-		if(status.equals("Partida_Finalizada")) throw new ExcecaoJogo("Partida finalizada");
-
+		if (status.equals("Partida_Finalizada")) {
+			throw new ExcecaoJogo("Partida finalizada");
+		}
 		return "Jogador: " + turno.getJogador().getCor() + "\nTile: " + proximoTile + "\nStatus: " + turno.getStatus();
 	}
-	public String relatorioTabuleiro( String configuracao) {
+
+	public String relatorioTabuleiro(String configuracao) {
 		return configuracao;
 	}
 
 	public Partida girarTile() {
-		if(status.equals("Tile_Posicionado")){
-			throw new ExcecaoJogo("Não pode girar tile já posicionado");
-		}
-		if(status.equals("Partida_Finalizada")) {
+		if (status == "Partida_Finalizada") {
+			System.out.println("dsadsa");
 			throw new ExcecaoJogo("Não pode girar tiles com a partida finalizada");
 		}
+		if (turno.getStatus().equals("Tile_Posicionado")) {
+			throw new ExcecaoJogo("Não pode girar tile já posicionado");
+		}
+
 		proximoTile.girar();
+
 		return this;
 	}
 
 	private void pegarProximoTile() {
+
 		proximoTile = tiles.pegar();
 		proximoTile.reset();
 	}
 
 	public Partida finalizarTurno() {
-		turno.setStatus("Finalizado");
-		if(tiles.pegar() == null) {
-			this.status = "Partida_Finalizada";
-		}else {
+		turno.setStatus("Finalizado");	
+		if (tiles.size() > 1) {
 			pegarProximoTile();
-			this.turno = new Turno(proximoTile, jogadores.get(vezDoJogador++), "Início_Turno");
+			vezDoJogador++;
+			turno = new Turno(proximoTile, jogadores.get(vezDoJogador), "Início_Turno");
 			turnos.add(turno);
+		} else {
+			status = "Partida_Finalizada";
 		}
 		return this;
 	}
 
+	public void posicionarPrimeiroTile(Tile tile) {
+		tabuleiro.adicionarPrimeiroTile(proximoTile);
+		turno.setStatus("Tile_Posicionado");
+	}
+
 	public Partida posicionarTile(Tile tileReferencia, Lado ladoTileReferencia) {
 		tabuleiro.posicionar(tileReferencia, ladoTileReferencia, proximoTile);
+		turno.setStatus("Tile_Posicionado");
 		return this;
 	}
 
@@ -118,6 +132,5 @@ public class Partida {
 	public String getMosteiros() {
 		return null;
 	}
-
 
 }
