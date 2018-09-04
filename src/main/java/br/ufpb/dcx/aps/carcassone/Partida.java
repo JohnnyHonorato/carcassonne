@@ -50,7 +50,7 @@ public class Partida {
 		if (status.equals("Partida_Finalizada")) {
 			throw new ExcecaoJogo("Partida finalizada");
 		}
-		return "Jogador: " + turno.getJogador().getCor() + "\nTile: " + proximoTile + "\nStatus: " + turno.getStatus();
+		return "Jogador: " + turno.getJogador().getCor() + "\nTile: " + turno.getTile() + "\nStatus: " + turno.getStatus();
 	}
 
 	public String relatorioTabuleiro(String configuracao) {
@@ -65,27 +65,34 @@ public class Partida {
 		if (turno.getStatus().equals("Tile_Posicionado")) {
 			throw new ExcecaoJogo("Não pode girar tile já posicionado");
 		}
-
-		proximoTile.girar();
+			proximoTile.girar();
 
 		return this;
 	}
 
 	private void pegarProximoTile() {
-
 		proximoTile = tiles.pegar();
 		proximoTile.reset();
 	}
+	public Jogador proximoJogador() {
+		try {
+			return jogadores.get(vezDoJogador++);
+		} catch (IndexOutOfBoundsException e) {
+			vezDoJogador = 0;
+			return jogadores.get(vezDoJogador++);
+		}
+	}
+
 
 	public Partida finalizarTurno() {
 		turno.setStatus("Finalizado");	
 		if (tiles.size() > 1) {
 			pegarProximoTile();
 			vezDoJogador++;
-			turno = new Turno(proximoTile, jogadores.get(vezDoJogador), "Início_Turno");
+			turno = new Turno(proximoTile, proximoJogador(), "Início_Turno");
 			turnos.add(turno);
 		} else {
-			status = "Partida_Finalizada";
+			this.status = "Partida_Finalizada";
 		}
 		return this;
 	}
