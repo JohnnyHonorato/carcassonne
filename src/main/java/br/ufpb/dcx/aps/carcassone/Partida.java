@@ -86,7 +86,7 @@ public class Partida {
 
 	public Partida finalizarTurno() {
 		turno.setStatus("Finalizado");	
-		if (tiles.size() > 1) {
+		if (tiles.size() > turnos.size()+ 1) {
 			pegarProximoTile();
 			vezDoJogador++;
 			turno = new Turno(proximoTile, proximoJogador(), "Início_Turno");
