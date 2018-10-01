@@ -401,15 +401,15 @@ public class JogoTest {
 	 * Verificar estrada antes e depois de colocar Meeple
 	 */
 	@Test
-	public void verificarEstrada() {
+	public void verificarEstrada() {	
 		mockarTiles(tiles, t30);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		
+
 		Assert.assertEquals("30(O,L)", partida.getEstradas());
 		
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(OESTE),
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(NORTE),
 				"Impossível posicionar meeple na peça inicial");
-
+		
 		Assert.assertEquals("30(O,L)", partida.getEstradas());
 	}
 	
@@ -420,8 +420,10 @@ public class JogoTest {
 	 */
 	@Test
 	public void estradaComDoisTilesMeeple() {
+		
 		mockarTiles(tiles, t30, t64);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		
 		girar(partida, 1);
 
 		partida.posicionarTile(t30, LESTE);
@@ -452,8 +454,14 @@ public class JogoTest {
 		partida.posicionarTile(t30, LESTE);
 		partida.finalizarTurno();
 		
-		partida.posicionarTile(t30, SUL);
-		Assert.assertEquals("30(O,L) 64(O,L)\n51(O,S)", partida.getEstradas());
+		partida.posicionarTile(t64, LESTE);
+		partida.posicionarMeepleEstrada(LESTE);
+		partida.finalizarTurno();
+		
+		partida.posicionarTile(t51, SUL);
+		partida.finalizarTurno();
+		
+		Assert.assertEquals("30(O,L) 64(O,L-AMARELO)\n51(O,S)", partida.getEstradas());
 		
 		partida.posicionarMeepleEstrada(SUL);
 		Assert.assertEquals("30(O,L) 64(O,L)\n51(O,S-VERMELHO)", partida.getEstradas());
@@ -471,18 +479,18 @@ public class JogoTest {
 	 */
 	@Test
 	public void posicionarMeepleEmEstradaOcupada() {
+		
 		mockarTiles(tiles, t30, t64, t51, t52);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		girar(partida, 1);
 
 		partida.posicionarTile(t30, LESTE);
-		partida.posicionarMeepleEstrada(LESTE);
 		partida.finalizarTurno();
 		
-		partida.posicionarTile(t30, SUL);
+		partida.posicionarTile(t64, LESTE);
 		partida.posicionarMeepleEstrada(OESTE);
 		partida.finalizarTurno();
-		Assert.assertEquals("30(O,L) 64(O,L-AMARELO)\n51(O-VERMELHO,S)", partida.getEstradas());
+		Assert.assertEquals("30(AMARELO-O,L) 64(O,L)\n51(O-VERMELHO,S)", partida.getEstradas());
 		
 		girar(partida, 1);
 		partida.posicionarTile(t64, LESTE);
