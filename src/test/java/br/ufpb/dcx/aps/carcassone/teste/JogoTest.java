@@ -608,6 +608,16 @@ public class JogoTest {
 		Assert.assertTrue(cont > 1);	
 	}
 	
+	public void estradaComDoisMeeples() {
+		mockarTiles(tiles, t30, t64);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+		girar(partida, 1);
+		partida.posicionarTile(t30, LESTE);
+		partida.posicionarMeepleEstrada(LESTE);
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(LESTE),
+				"Tile já contém Meeple");
+	}
 	
 	private void girar(Partida partida, int quantidade) {
 		for (int i = 0; i < quantidade; i++) {
