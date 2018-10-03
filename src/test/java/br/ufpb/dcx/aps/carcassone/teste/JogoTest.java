@@ -15,6 +15,7 @@ import br.ufpb.dcx.aps.carcassone.BolsaDeTiles;
 import br.ufpb.dcx.aps.carcassone.ExcecaoJogo;
 import br.ufpb.dcx.aps.carcassone.Jogo;
 import br.ufpb.dcx.aps.carcassone.Partida;
+import br.ufpb.dcx.aps.carcassone.TipoLadoCarcassonne;
 import br.ufpb.dcx.aps.carcassone.tabuleiro.Tile;
 
 /**
@@ -589,6 +590,24 @@ public class JogoTest {
 		partida.finalizarTurno();
 		Assert.assertEquals("30(NO,NE) 51(NO,NE,SE-VERMELHO)\n30(SO,SE) 02(NO,NE) 51(SO)", partida.getCampos());
 	}
+	
+	public void verificaSeTemMaisDeUmaEstradanoTile(Tile tile) {
+		int cont = 0;
+		if(tile.getLadoLeste().equals(TipoLadoCarcassonne.ESTRADA)) {
+			cont++;
+		}
+		if(tile.getLadoNorte().equals(TipoLadoCarcassonne.ESTRADA)) {
+			cont++;
+		}
+		if(tile.getLadoOeste().equals(TipoLadoCarcassonne.ESTRADA)) {
+			cont++;
+		}
+		if(tile.getLadoSul().equals(TipoLadoCarcassonne.ESTRADA)) {
+			cont++;
+		}
+		Assert.assertTrue(cont > 1);	
+	}
+	
 	
 	private void girar(Partida partida, int quantidade) {
 		for (int i = 0; i < quantidade; i++) {
