@@ -29,7 +29,7 @@ public class Partida {
 	public ArrayList<Jogador> iniciaJogadores(Cor... sequencia) {
 		ArrayList<Jogador> temporarioJogadores = new ArrayList<Jogador>();
 		for (Cor cor : sequencia) {
-			temporarioJogadores.add(new Jogador(cor.name()));
+			temporarioJogadores.add(new Jogador(cor));
 		}
 		return temporarioJogadores;
 	}
@@ -70,7 +70,7 @@ public class Partida {
 		return this;
 	}
 
-	private void pegarProximoTile() {
+	public void pegarProximoTile() {
 		proximoTile = tiles.pegar();
 		proximoTile.reset();
 	}
@@ -140,4 +140,7 @@ public class Partida {
 		return null;
 	}
 
+	public int pontuacaoMeepleEstrada(Cor cor){
+		return 0;
+	}
 }

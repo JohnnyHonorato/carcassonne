@@ -7,15 +7,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import br.ufpb.dcx.aps.carcassone.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.ufpb.dcx.aps.carcassone.BolsaDeTiles;
-import br.ufpb.dcx.aps.carcassone.ExcecaoJogo;
-import br.ufpb.dcx.aps.carcassone.Jogo;
-import br.ufpb.dcx.aps.carcassone.Partida;
-import br.ufpb.dcx.aps.carcassone.TipoLadoCarcassonne;
 import br.ufpb.dcx.aps.carcassone.tabuleiro.Tile;
 
 /**
@@ -647,6 +643,45 @@ public class JogoTest {
 	private void verificarRelatorioTabuleiro(Partida partida, String configuracao) {
 
 		Assert.assertEquals(configuracao, partida.relatorioTabuleiro(configuracao));
+	}
+	@Test
+	public void pontuacaoEstrada() {
+		mockarTiles(tiles, t30, t49, t72);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+		girar(partida, 1);
+		partida.posicionarTile(t30, LESTE);
+		partida.posicionarMeepleEstrada(LESTE);
+		partida.finalizarTurno();
+		partida.posicionarTile(t30, OESTE);
+		partida.finalizarTurno();
+		Assert.assertEquals(partida.pontuacaoMeepleEstrada(VERMELHO), 0);
+
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHO(0,6)");
+		verificarRelatorioTurno(partida, "VERMELHO", "51N", "Meeple_Posicionado");
+		verificarRelatorioTabuleiro(partida, "30N49L\n72N");
+
+	}
+
+	@Test
+	public void tileComMaisDeUmaEstrada(){
+		mockarTiles(tiles, t30, t49, t72);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+		girar(partida, 1);
+		partida.posicionarTile(t30, LESTE);
+		partida.posicionarMeepleEstrada(LESTE);
+		partida.finalizarTurno();
+		partida.posicionarTile(t30, OESTE);
+		partida.posicionarMeepleEstrada(NORTE);
+		partida.posicionarMeepleEstrada(OESTE);
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,5); VERMELHO(0,6)");
+		verificarRelatorioTurno(partida, "AMARELO", "72N", "Meeple_Posicionado");
+		verificarRelatorioTabuleiro(partida, "30N49L\n72N");
+
 	}
 
 }

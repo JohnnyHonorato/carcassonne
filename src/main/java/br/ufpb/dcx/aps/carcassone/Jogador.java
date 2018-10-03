@@ -2,21 +2,21 @@ package br.ufpb.dcx.aps.carcassone;
 
 public class Jogador {
 
-	private String cor;
+	private Cor cor;
 	private int pontuacao;
 	private int meeples;
 
-	public Jogador(String cor) {
+	public Jogador(Cor cor) {
 		this.setCor(cor);
 		this.setPontuacao(0);
 		this.setMeeples(7);
 	}
 
-	public String getCor() {
+	public Cor getCor() {
 		return cor;
 	}
 
-	public void setCor(String cor) {
+	public void setCor(Cor cor) {
 		this.cor = cor;
 	}
 
