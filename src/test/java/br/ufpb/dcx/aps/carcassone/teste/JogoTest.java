@@ -402,9 +402,11 @@ public class JogoTest {
 	 */
 	@Test
 	public void verificarEstrada() {	
+		
 		mockarTiles(tiles, t30);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-
+		partida.finalizarTurno();
+		
 		Assert.assertEquals("30(O,L)", partida.getEstradas());
 		
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(NORTE),
@@ -423,6 +425,7 @@ public class JogoTest {
 		
 		mockarTiles(tiles, t30, t64);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
 		
 		girar(partida, 1);
 
@@ -449,6 +452,8 @@ public class JogoTest {
 	public void estradasDesconexasMeeple() {
 		mockarTiles(tiles, t30, t64, t51);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+		
 		girar(partida, 1);
 
 		partida.posicionarTile(t30, LESTE);
@@ -489,15 +494,13 @@ public class JogoTest {
 		
 		partida.posicionarTile(t64, LESTE);
 		partida.posicionarMeepleEstrada(OESTE);
-		partida.finalizarTurno();
-		Assert.assertEquals("30(AMARELO-O,L) 64(O,L)\n51(O-VERMELHO,S)", partida.getEstradas());
 		
-		girar(partida, 1);
-		partida.posicionarTile(t64, LESTE);
-		Assert.assertEquals("30(O,L) 64(O,L-AMARELO) 52(N,O)\n51(O-VERMELHO,S)", partida.getEstradas());
+		partida.posicionarTile(t51, LESTE);
 		
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(OESTE),
 				"Impossível posicionar meeple pois a estrada já está ocupada pelo meeple AMARELO no lado Leste do tile 64");
+		
+		Assert.assertEquals("30(AMARELO-O,L) 64(O,L)\n51(O,S)", partida.getEstradas());
 		
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHO(0,6)");
 		verificarRelatorioTurno(partida, "AMARELO", "52L", "Tile_Posicionado");
@@ -515,7 +518,7 @@ public class JogoTest {
 	public void posicionarMeepleCampoSemCampo() {
 		mockarTiles(tiles, t30, t02);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		girar(partida, 2);
+		girar(partida, 1);
 		partida.posicionarTile(t30, SUL);
 
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleCampo(SUDESTE),
