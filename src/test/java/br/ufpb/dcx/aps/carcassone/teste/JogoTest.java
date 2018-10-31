@@ -65,16 +65,15 @@ public class JogoTest {
 				"Não pode haver repetição de cores na sequência de jogadores");
 	}
 
-
 	/**
 	 * Caso de teste 02
 	 * 
 	 * Verifica os relatórios da partida logo após o seu início. O status da partida
 	 * é Em_Andamento. As cores dos jogadores aparecem no formato: COR1(PONTUACAO,
 	 * MEEPLES DISPONÍVEIS); COR2(... O status do turno deve ser Início_Turno,
-	 * também devem ser mostrados o primeiro jogador e o tile deste turno, que é o 
-	 * primeiro tile é posicionado automaticamente na criação da partida. 
-	 * O tabuleiro deve conter a peça inicial na posição norte
+	 * também devem ser mostrados o primeiro jogador e o tile deste turno, que é o
+	 * primeiro tile é posicionado automaticamente na criação da partida. O
+	 * tabuleiro deve conter a peça inicial na posição norte
 	 * 
 	 */
 	@Test
@@ -103,9 +102,9 @@ public class JogoTest {
 		verificarRelatorioPartida(partida, "Em_Andamento", "AZUL(0,7); VERDE(0,7)");
 		verificarRelatorioTurno(partida, "AZUL", "30N", "Tile_Posicionado");
 		verificarRelatorioTabuleiro(partida, "30N");
-		
+
 		partida.finalizarTurno();
-		
+
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AZUL(0,7); VERDE(0,7)");
 		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
 		verificarRelatorioTabuleiro(partida, "30N");
@@ -114,9 +113,9 @@ public class JogoTest {
 	/**
 	 * Caso de teste 04
 	 * 
-	 * No primeiro turno, o tile não pode ser girado, pois a peça já está posicionada. 
-	 * No início de outro turno, o tile do turno pode ser girado. O resultado será
-	 * refletido no relatório do turno.
+	 * No primeiro turno, o tile não pode ser girado, pois a peça já está
+	 * posicionada. No início de outro turno, o tile do turno pode ser girado. O
+	 * resultado será refletido no relatório do turno.
 	 */
 	@Test
 	public void girarTileNoInicioDoTurno() {
@@ -180,7 +179,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO, AMARELO, VERMELHO, AZUL);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 2);
 		partida.posicionarTile(t30, LESTE);
 
@@ -201,7 +200,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO, AMARELO, VERMELHO, AZUL);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 2);
 		partida.posicionarTile(t30, LESTE);
 
@@ -220,7 +219,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29, t01);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO, AMARELO, VERMELHO, AZUL);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 2);
 		partida.posicionarTile(t30, LESTE);
 
@@ -239,7 +238,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 2);
 		partida.posicionarTile(t30, LESTE);
 		partida.finalizarTurno();
@@ -260,7 +259,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29, t01);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 2);
 		partida.posicionarTile(t30, LESTE);
 		partida.finalizarTurno();
@@ -270,7 +269,8 @@ public class JogoTest {
 		verificarRelatorioTabuleiro(partida, "30N29S");
 
 		girar(partida, 3);
-		verificarRelatorioTurno(partida, "VERDE", "01O", "Início_Turno");	}
+		verificarRelatorioTurno(partida, "VERDE", "01O", "Início_Turno");
+	}
 
 	/**
 	 * Caso de teste 12
@@ -283,7 +283,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 2);
 		partida.posicionarTile(t30, SUL);
 
@@ -303,7 +303,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO);
 		partida.finalizarTurno();
-		
+
 		partida.posicionarTile(t30, OESTE);
 
 		verificarRelatorioPartida(partida, "Em_Andamento", "VERDE(0,7); PRETO(0,7)");
@@ -342,7 +342,7 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t29);
 		Partida partida = jogo.criarPartida(tiles, VERDE, PRETO);
 		partida.finalizarTurno();
-		
+
 		partida.posicionarTile(t30, LESTE);
 
 		verificarRelatorioPartida(partida, "Em_Andamento", "VERDE(0,7); PRETO(0,7)");
@@ -378,8 +378,8 @@ public class JogoTest {
 	/**
 	 * Caso de teste 17
 	 * 
-	 * Ao tentar posicionar meeple de estrada em lado que não tem estrada, deve ser lançada uma
-	 * exceção.
+	 * Ao tentar posicionar meeple de estrada em lado que não tem estrada, deve ser
+	 * lançada uma exceção.
 	 */
 	@Test
 	public void posicionarMeepleEstradaSemEstrada() {
@@ -402,48 +402,53 @@ public class JogoTest {
 	 * Verificar estrada antes e depois de colocar Meeple
 	 */
 	@Test
-	public void verificarEstrada() {	
-		
+	public void verificarEstrada() {
+
 		mockarTiles(tiles, t30);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
-		
+
+		partida.posicionarTile(t30, LESTE);
 		Assert.assertEquals("30(O,L)", partida.getEstradas());
-		
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(NORTE),
-				"Impossível posicionar meeple na peça inicial");
-		
+
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(NORTE), "Impossível posicionar meeple na peça inicial");
+
 		Assert.assertEquals("30(O,L)", partida.getEstradas());
 	}
-	
+
 	/**
 	 * Caso de teste 19
 	 * 
-	 *  Estrada com dois tiles e meeple
+	 * Estrada com dois tiles e meeple
 	 */
 	@Test
 	public void estradaComDoisTilesMeeple() {
-		
+
 		mockarTiles(tiles, t30, t64);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 1);
 
 		partida.posicionarTile(t30, LESTE);
+		Assert.assertEquals("30(O,L)", partida.getEstradas());
+		
+		partida.posicionarTile(t64, LESTE);
 		Assert.assertEquals("30(O,L) 64(O,L)", partida.getEstradas());
-
+		
 		partida.posicionarMeepleEstrada(LESTE);
 		Assert.assertEquals("30(O,L) 64(O,L-AMARELO)", partida.getEstradas());
 
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(OESTE), "Impossível posicionar meeple na peça");
+		
 		partida.finalizarTurno();
 		Assert.assertEquals("30(O,L) 64(O,L-AMARELO)", partida.getEstradas());
-		
+
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHO(0,7)");
 		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
 		verificarRelatorioTabuleiro(partida, "30N64L");
 	}
-	
+
 	/**
 	 * Caso de teste 20
 	 * 
@@ -454,30 +459,30 @@ public class JogoTest {
 		mockarTiles(tiles, t30, t64, t51);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
-		
+
 		girar(partida, 1);
 
 		partida.posicionarTile(t30, LESTE);
 		partida.finalizarTurno();
-		
+
 		partida.posicionarTile(t64, LESTE);
 		partida.posicionarMeepleEstrada(LESTE);
 		partida.finalizarTurno();
-		
+
 		partida.posicionarTile(t51, SUL);
 		partida.finalizarTurno();
-		
+
 		Assert.assertEquals("30(O,L) 64(O,L-AMARELO)\n51(O,S)", partida.getEstradas());
-		
+
 		partida.posicionarMeepleEstrada(SUL);
 		Assert.assertEquals("30(O,L) 64(O,L)\n51(O,S-VERMELHO)", partida.getEstradas());
-		
+
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHO(0,6)");
 		verificarRelatorioTurno(partida, "VERMELHO", "51N", "Meeple_Posicionado");
 		verificarRelatorioTabuleiro(partida, "30N64L\n51N");
 
 	}
-	
+
 	/**
 	 * Caso de teste 21
 	 * 
@@ -485,35 +490,35 @@ public class JogoTest {
 	 */
 	@Test
 	public void posicionarMeepleEmEstradaOcupada() {
-		
+
 		mockarTiles(tiles, t30, t64, t51, t52);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		girar(partida, 1);
 
 		partida.posicionarTile(t30, LESTE);
 		partida.finalizarTurno();
-		
+
 		partida.posicionarTile(t64, LESTE);
 		partida.posicionarMeepleEstrada(OESTE);
-		
+
 		partida.posicionarTile(t51, LESTE);
-		
+
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(OESTE),
 				"Impossível posicionar meeple pois a estrada já está ocupada pelo meeple AMARELO no lado Leste do tile 64");
-		
+
 		Assert.assertEquals("30(AMARELO-O,L) 64(O,L)\n51(O,S)", partida.getEstradas());
-		
+
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHO(0,6)");
 		verificarRelatorioTurno(partida, "AMARELO", "52L", "Tile_Posicionado");
 		verificarRelatorioTabuleiro(partida, "30N64L52L\n51N");
 
 	}
-	
+
 	/**
 	 * Caso de teste 22
 	 * 
-	 * Ao tentar posicionar meeple de campo em lado que não tem campo, deve ser lançada uma
-	 * exceção.
+	 * Ao tentar posicionar meeple de campo em lado que não tem campo, deve ser
+	 * lançada uma exceção.
 	 */
 	@Test
 	public void posicionarMeepleCampoSemCampo() {
@@ -528,7 +533,7 @@ public class JogoTest {
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleCampo(SUDOESTE),
 				"Impossível posicionar meeple em campo pois o vertice Sudoeste do tile 02 é totalmente ocupado por Cidade");
 	}
-	
+
 	/**
 	 * Caso de tese 23
 	 * 
@@ -538,19 +543,18 @@ public class JogoTest {
 	public void verificarCampo() {
 		mockarTiles(tiles, t30);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		
+
 		Assert.assertEquals("30(NO,NE)\\n30(SO,SE)", partida.getCampos());
-		
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCampo(SUDESTE),
-				"Impossível posicionar meeple na peça inicial");
+
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCampo(SUDESTE), "Impossível posicionar meeple na peça inicial");
 
 		Assert.assertEquals("30(NO,NE)\n30(SO,SE)", partida.getCampos());
 	}
-	
+
 	/**
 	 * Caso de teste 24
 	 * 
-	 *  Campo com dois tiles e meeple
+	 * Campo com dois tiles e meeple
 	 */
 	@Test
 	public void campoComDoisTilesMeeple() {
@@ -567,11 +571,11 @@ public class JogoTest {
 		partida.finalizarTurno();
 		Assert.assertEquals("30(NO,NE)\n30(SO,SE) 02(NO,NE-AMARELO)", partida.getCampos());
 	}
-	
+
 	/**
 	 * Caso de teste 25
 	 * 
-	 *  Campo com três tiles e meeple
+	 * Campo com três tiles e meeple
 	 */
 	@Test
 	public void campoComTresTilesMeeple() {
@@ -590,24 +594,24 @@ public class JogoTest {
 		partida.finalizarTurno();
 		Assert.assertEquals("30(NO,NE) 51(NO,NE,SE-VERMELHO)\n30(SO,SE) 02(NO,NE) 51(SO)", partida.getCampos());
 	}
-	
+
 	public void verificaSeTemMaisDeUmaEstradanoTile(Tile tile) {
 		int cont = 0;
-		if(tile.getLadoLeste().equals(TipoLadoCarcassonne.ESTRADA)) {
+		if (tile.getLadoLeste().equals(TipoLadoCarcassonne.ESTRADA)) {
 			cont++;
 		}
-		if(tile.getLadoNorte().equals(TipoLadoCarcassonne.ESTRADA)) {
+		if (tile.getLadoNorte().equals(TipoLadoCarcassonne.ESTRADA)) {
 			cont++;
 		}
-		if(tile.getLadoOeste().equals(TipoLadoCarcassonne.ESTRADA)) {
+		if (tile.getLadoOeste().equals(TipoLadoCarcassonne.ESTRADA)) {
 			cont++;
 		}
-		if(tile.getLadoSul().equals(TipoLadoCarcassonne.ESTRADA)) {
+		if (tile.getLadoSul().equals(TipoLadoCarcassonne.ESTRADA)) {
 			cont++;
 		}
-		Assert.assertTrue(cont > 1);	
+		Assert.assertTrue(cont > 1);
 	}
-	
+
 	public void estradaComDoisMeeples() {
 		mockarTiles(tiles, t30, t64);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
@@ -615,10 +619,9 @@ public class JogoTest {
 		girar(partida, 1);
 		partida.posicionarTile(t30, LESTE);
 		partida.posicionarMeepleEstrada(LESTE);
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(LESTE),
-				"Tile já contém Meeple");
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleEstrada(LESTE), "Tile já contém Meeple");
 	}
-	
+
 	private void girar(Partida partida, int quantidade) {
 		for (int i = 0; i < quantidade; i++) {
 			partida.girarTile();
